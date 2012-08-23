@@ -4,4 +4,5 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #define MATH_PI 3.14159265   
 #endif

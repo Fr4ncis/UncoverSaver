@@ -7,10 +7,15 @@
 //
 
 #import <ScreenSaver/ScreenSaver.h>
+#import <QTKit/QTKit.h>
 
 @interface UncoverSaverView : ScreenSaverView {
+    NSDate *startTime;
     float defaultBrightness;
+    float normalizeOffset;
     BOOL upwards;
+    
+    QTMovie *movie;
 }
 
 - (void)setBrightness:(NSNumber*)brightness;
