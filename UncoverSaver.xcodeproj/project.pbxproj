@@ -12,6 +12,14 @@
 		6D20103B15639E7D0073A62F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D20103915639E7D0073A62F /* InfoPlist.strings */; };
 		6D20103F15639E7D0073A62F /* UncoverSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D20103E15639E7D0073A62F /* UncoverSaverView.m */; };
 		6D2010481563F0C80073A62F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2010471563F0C80073A62F /* IOKit.framework */; };
+		6D8EAAD815E5376E00237642 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8EAAD715E5376E00237642 /* QTKit.framework */; };
+		6D8EAAE315E53DD800237642 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8EAAE015E53DD800237642 /* LoggerClient.h */; };
+		6D8EAAE415E53DD800237642 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8EAAE115E53DD800237642 /* LoggerClient.m */; };
+		6D8EAAE515E53DD800237642 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8EAAE215E53DD800237642 /* LoggerCommon.h */; };
+		6D8EAAE815E53DF800237642 /* littleMovie.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6D8EAAE715E53DF800237642 /* littleMovie.mov */; };
+		6D8EAAEB15E5466900237642 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8EAAEA15E5466900237642 /* QuartzCore.framework */; };
+		6DDF074B15DE44DB000DA809 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDF074A15DE44DB000DA809 /* SystemConfiguration.framework */; };
+		6DDF074E15DE454A000DA809 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDF074D15DE454A000DA809 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +35,14 @@
 		6D20103D15639E7D0073A62F /* UncoverSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UncoverSaverView.h; sourceTree = "<group>"; };
 		6D20103E15639E7D0073A62F /* UncoverSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UncoverSaverView.m; sourceTree = "<group>"; };
 		6D2010471563F0C80073A62F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		6D8EAAD715E5376E00237642 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		6D8EAAE015E53DD800237642 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
+		6D8EAAE115E53DD800237642 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
+		6D8EAAE215E53DD800237642 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
+		6D8EAAE715E53DF800237642 /* littleMovie.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = littleMovie.mov; sourceTree = "<group>"; };
+		6D8EAAEA15E5466900237642 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6DDF074A15DE44DB000DA809 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6DDF074D15DE454A000DA809 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +50,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D8EAAEB15E5466900237642 /* QuartzCore.framework in Frameworks */,
+				6D8EAAD815E5376E00237642 /* QTKit.framework in Frameworks */,
+				6DDF074E15DE454A000DA809 /* CoreServices.framework in Frameworks */,
+				6DDF074B15DE44DB000DA809 /* SystemConfiguration.framework in Frameworks */,
 				6D2010481563F0C80073A62F /* IOKit.framework in Frameworks */,
 				6D20102F15639E7D0073A62F /* Cocoa.framework in Frameworks */,
 				6D20103115639E7D0073A62F /* ScreenSaver.framework in Frameworks */,
@@ -47,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				6D20103615639E7D0073A62F /* UncoverSaver */,
+				6D8EAAE615E53DF800237642 /* Resources */,
+				6D8EAADE15E53DD800237642 /* Frameworks */,
 				6D20102D15639E7D0073A62F /* Frameworks */,
 				6D20102C15639E7D0073A62F /* Products */,
 			);
@@ -63,6 +85,10 @@
 		6D20102D15639E7D0073A62F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D8EAAEA15E5466900237642 /* QuartzCore.framework */,
+				6D8EAAD715E5376E00237642 /* QTKit.framework */,
+				6DDF074D15DE454A000DA809 /* CoreServices.framework */,
+				6DDF074A15DE44DB000DA809 /* SystemConfiguration.framework */,
 				6D2010471563F0C80073A62F /* IOKit.framework */,
 				6D20102E15639E7D0073A62F /* Cocoa.framework */,
 				6D20103015639E7D0073A62F /* ScreenSaver.framework */,
@@ -101,6 +127,34 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6D8EAADE15E53DD800237642 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6D8EAADF15E53DD800237642 /* NSLogger */,
+			);
+			name = Frameworks;
+			path = UncoverSaver/Frameworks;
+			sourceTree = "<group>";
+		};
+		6D8EAADF15E53DD800237642 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				6D8EAAE015E53DD800237642 /* LoggerClient.h */,
+				6D8EAAE115E53DD800237642 /* LoggerClient.m */,
+				6D8EAAE215E53DD800237642 /* LoggerCommon.h */,
+			);
+			path = NSLogger;
+			sourceTree = "<group>";
+		};
+		6D8EAAE615E53DF800237642 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6D8EAAE715E53DF800237642 /* littleMovie.mov */,
+			);
+			name = Resources;
+			path = UncoverSaver/Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -108,6 +162,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D8EAAE315E53DD800237642 /* LoggerClient.h in Headers */,
+				6D8EAAE515E53DD800237642 /* LoggerCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D20103B15639E7D0073A62F /* InfoPlist.strings in Resources */,
+				6D8EAAE815E53DF800237642 /* littleMovie.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D20103F15639E7D0073A62F /* UncoverSaverView.m in Sources */,
+				6D8EAAE415E53DD800237642 /* LoggerClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,9 +314,11 @@
 				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UncoverSaver/UncoverSaver-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UncoverSaver/UncoverSaver-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -269,9 +329,11 @@
 				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UncoverSaver/UncoverSaver-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UncoverSaver/UncoverSaver-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;

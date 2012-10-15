@@ -15,7 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-const int kVersion = 16;
+const int kVersion = 21;
 const int kCycleDuration = 5;
 const int kPreviewInterval = 10;
 const int kMaxDisplays = 16;
@@ -27,8 +27,7 @@ const char *APP_NAME;
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
-    self = [super initWithFrame:frame isPreview:isPreview];
-    if (self) {
+    if (self = [super initWithFrame:frame isPreview:isPreview]) {
         LogMessage(@"", 4, [NSString stringWithFormat:@"(VER %d) InitWithFrame PREVIEW: %d", kVersion, isPreview]);
         if (isPreview) {
             [self setAnimationTimeInterval:kPreviewInterval];
@@ -49,7 +48,8 @@ const char *APP_NAME;
         else {
             [self setAnimationTimeInterval:kSteps];
         }
-        QTMovieView *movieView = [[QTMovieView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height+20)];
+        QTMovieView *movieView = [[QTMovieView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height)];
+        [movieView setControllerVisible:NO];
         [movieView setMovie:movie];
         [movie autoplay];
         [self addSubview:movieView];
@@ -75,7 +75,7 @@ const char *APP_NAME;
 - (void)startAnimation
 {
     [super startAnimation];
-    startTime = [NSDate date];
+    startTime = [[NSDate alloc] init];
     LogMessage(@"", 4, @"startAnimation");
     if (![self isPreview]) {
         [self saveDefaultBrightness];
