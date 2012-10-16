@@ -14,8 +14,6 @@
     NSDate *lastChangeTime;
     float defaultBrightness;
     float normalizeOffset;
-    __block BOOL firstIteration;
-    __block BOOL __isPreview;
     
     int imageNum;
     

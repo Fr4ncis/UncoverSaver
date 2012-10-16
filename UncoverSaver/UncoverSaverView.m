@@ -15,11 +15,11 @@
 #import <QuartzCore/QuartzCore.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-const int kVersion = 39;
+const int kVersion = 57;
 const int kCycleDuration = 5;
 const int kPreviewInterval = 10;
 const int kMaxDisplays = 16;
-const float kSteps = 1/8.0;
+const float kSteps = 1/20.0;
 const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 const char *APP_NAME;
 
@@ -29,10 +29,8 @@ const char *APP_NAME;
 {
     if (self = [super initWithFrame:frame isPreview:isPreview]) {
         imageNum = 0;
-        firstIteration = YES;
-        __isPreview = isPreview;
         LogMessage(@"", 4, @"%@", [NSString stringWithFormat:@"(VER %d) InitWithFrame PREVIEW: %d", kVersion, isPreview]);
-        if (__isPreview) {
+        if (isPreview) {
             LogMessage(@"Mode", 4, @"SMALL PREVIEW");
             [self setAnimationTimeInterval:kPreviewInterval];
             [self setupMovie];
@@ -42,6 +40,7 @@ const char *APP_NAME;
             [self setAnimationTimeInterval:kSteps];
             [self changeImage];
         }
+        [self setWantsLayer:YES];
         QTMovieView *movieView = [[QTMovieView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height)];
         [movieView setControllerVisible:NO];
         [movieView setMovie:movie];
@@ -68,22 +67,20 @@ const char *APP_NAME;
 
 - (void)changeImage
 {
-    firstIteration = NO;
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass: [self class]];
     imageNum++;
     (imageNum>3)?imageNum=1:imageNum;
     NSString *filePath = [bundle pathForResource: [NSString stringWithFormat:@"image%d", imageNum]  ofType: @"jpg"];
     LogMessage(@"Image", 4, @"%@", [NSString stringWithFormat:@"FilePath: %@", filePath]);
-    if (imageView) {
-        [imageView removeFromSuperview];
-        imageView = nil;
-    }
-    imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height)];
+    if (!imageView)
+        imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height)];
     NSImage *image = [[NSImage alloc] initWithContentsOfFile:filePath];
+    [imageView setAlphaValue:0.0];
     [imageView setImage:image];
     [imageView setImageScaling:NSScaleToFit];
     [self addSubview:imageView];
+    [imageView setWantsLayer:YES];
 }
 
 - (void)startAnimation
@@ -93,6 +90,7 @@ const char *APP_NAME;
     LogMessage(@"", 4, @"startAnimation");
     if (![self isPreview]) {
         [self saveDefaultBrightness];
+        [self changeImage];
     }
 }
 
@@ -115,13 +113,19 @@ const char *APP_NAME;
 - (void)brightnessCycle
 {
     float secStarted = [startTime timeIntervalSinceNow]*-1;
-    float brightness = (sin(secStarted*MATH_PI/kCycleDuration)+1.1)/2.1;
+    float brightness = (sin(secStarted*MATH_PI/kCycleDuration)+1)/2;
     float derivative = (cos(secStarted*MATH_PI/kCycleDuration));
+    LogMessage(@"Started", 3, @"%@",[NSString stringWithFormat:@"Started: %f Bright: %f Deriv: %f", secStarted, brightness, derivative]);
     if (brightness < 0.5 && derivative > 0 && derivative < 0.1 && [self enoughTimeFromLastChange]) {
         [self changeImage];
+    } else {
+        [imageView setAlphaValue:(brightness)];
+        if (brightness < 0.1) {
+            LogMessage(@"Alpha", 3, @"Setting alpha: %f",brightness);
+        } else {
+            [self setBrightness:[NSNumber numberWithFloat:brightness]];
+        }
     }
-    LogMessage(@"Started", 3, @"%@",[NSString stringWithFormat:@"Started: %f Bright: %f Deriv: %f", secStarted, brightness, derivative]);
-    [self setBrightness:[NSNumber numberWithFloat:brightness]];
 }
 
 - (void)stopAnimation
@@ -145,24 +149,12 @@ const char *APP_NAME;
     return myBrightness;
 }
 
-- (void)drawRect:(NSRect)rect
-{
-    [super drawRect:rect];
-    LogMessage(@"", 5, @"Size: %f %f", rect.size.width, rect.size.height);
-    LogMessage(@"", 5, @"drawRect");
-}
-
 - (void)animateOneFrame
 {
-    if (__isPreview) {
-        //LogMessage(@"", 5, @"animateOneFrame (SmallPreview)");
+    if ([self isPreview]) {
+        // do nothing
     } else {
-        //LogMessage(@"", 5, @"animateOneFrame (FullScreen) (brightness: %f)", [self getBrightness]);
         [self brightnessCycle];
-        if (firstIteration) {
-            LogMessage(@"FirstIteration", 5, @"First Iteration");
-            [self changeImage];
-        }
     }
     return;
 }
@@ -209,13 +201,6 @@ const char *APP_NAME;
 {
     defaultBrightness = [self getBrightness];
     LogMessage(@"Brightness", 3, @"Default brightness: %f", defaultBrightness);
-    //    CGDisplayErr err;
-    //    CGDisplayCount numDisplays;
-    //    CGDirectDisplayID display[kMaxDisplays];
-    //    err = CGGetActiveDisplayList(kMaxDisplays, display, &numDisplays);
-    //    CGDirectDisplayID dspy = display[0];
-    //    io_service_t service = CGDisplayIOServicePort(dspy);
-    //    IODisplayGetFloatParameter(service, kNilOptions, kDisplayBrightness, &defaultBrightness);
 }
 
 - (void)playAgain:(NSNotification*)note
