@@ -15,11 +15,11 @@
 #import <QuartzCore/QuartzCore.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-const int kVersion = 21;
+const int kVersion = 39;
 const int kCycleDuration = 5;
 const int kPreviewInterval = 10;
 const int kMaxDisplays = 16;
-const float kSteps = 1/30.0;
+const float kSteps = 1/8.0;
 const CFStringRef kDisplayBrightness = CFSTR(kIODisplayBrightnessKey);
 const char *APP_NAME;
 
@@ -28,25 +28,19 @@ const char *APP_NAME;
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     if (self = [super initWithFrame:frame isPreview:isPreview]) {
-        LogMessage(@"", 4, [NSString stringWithFormat:@"(VER %d) InitWithFrame PREVIEW: %d", kVersion, isPreview]);
-        if (isPreview) {
+        imageNum = 0;
+        firstIteration = YES;
+        __isPreview = isPreview;
+        LogMessage(@"", 4, @"%@", [NSString stringWithFormat:@"(VER %d) InitWithFrame PREVIEW: %d", kVersion, isPreview]);
+        if (__isPreview) {
+            LogMessage(@"Mode", 4, @"SMALL PREVIEW");
             [self setAnimationTimeInterval:kPreviewInterval];
-            //NSView *movieView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height)];
             [self setupMovie];
-            
-            //CALayer *viewLayer = [CALayer layer];
-            //[viewLayer setBackgroundColor:CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0)]; //RGB plus Alpha Channel
-            //[movieView setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
-            
-            //QTMovieLayer *movieLayer = [QTMovieLayer layerWithMovie:movie];
-            //QTMovieView *movieView = [[QTMovieView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height+20)];
-            //[movieView setMovie:movie];
-            //[movieView setLayer:viewLayer];
-            //[viewLayer addSublayer:movieLayer];
-            //[self addSubview:movieView];
         }
         else {
+            LogMessage(@"Mode", 4, @"FULL SCREEN");
             [self setAnimationTimeInterval:kSteps];
+            [self changeImage];
         }
         QTMovieView *movieView = [[QTMovieView alloc] initWithFrame:NSMakeRect(0, 0, frame.size.width, frame.size.height)];
         [movieView setControllerVisible:NO];
@@ -62,7 +56,7 @@ const char *APP_NAME;
     NSError *error = nil;
     NSBundle *bundle = [NSBundle bundleForClass: [self class]];
     NSString *filePath = [bundle pathForResource: @"littleMovie"  ofType: @"mov"];
-    LogMessage(@"", 4, [NSString stringWithFormat:@"FilePath: %@", filePath]);
+    LogMessage(@"", 4, @"%@", [NSString stringWithFormat:@"FilePath: %@", filePath]);
     movie = [[QTMovie alloc] initWithFile:filePath error:&error];
     [movie setAttribute:[NSNumber numberWithBool:YES] forKey: @"QTMovieLoopsAttribute"];
     NSNotificationCenter* notificationCenter = [NSNotificationCenter defaultCenter];
@@ -70,6 +64,26 @@ const char *APP_NAME;
                            selector:@selector(playAgain:)
                                name:QTMovieDidEndNotification
                              object:self];
+}
+
+- (void)changeImage
+{
+    firstIteration = NO;
+    NSError *error = nil;
+    NSBundle *bundle = [NSBundle bundleForClass: [self class]];
+    imageNum++;
+    (imageNum>3)?imageNum=1:imageNum;
+    NSString *filePath = [bundle pathForResource: [NSString stringWithFormat:@"image%d", imageNum]  ofType: @"jpg"];
+    LogMessage(@"Image", 4, @"%@", [NSString stringWithFormat:@"FilePath: %@", filePath]);
+    if (imageView) {
+        [imageView removeFromSuperview];
+        imageView = nil;
+    }
+    imageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, self.frame.size.width, self.frame.size.height)];
+    NSImage *image = [[NSImage alloc] initWithContentsOfFile:filePath];
+    [imageView setImage:image];
+    [imageView setImageScaling:NSScaleToFit];
+    [self addSubview:imageView];
 }
 
 - (void)startAnimation
@@ -82,11 +96,31 @@ const char *APP_NAME;
     }
 }
 
+- (BOOL)enoughTimeFromLastChange
+{
+    if (!lastChangeTime) {
+        lastChangeTime = [[NSDate alloc] init];
+        return YES;
+    } else {
+        float secStarted = [lastChangeTime timeIntervalSinceNow]*-1;
+        if (secStarted > (kCycleDuration / 10.0)) {
+            lastChangeTime = [[NSDate alloc] init];
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
 - (void)brightnessCycle
 {
     float secStarted = [startTime timeIntervalSinceNow]*-1;
     float brightness = (sin(secStarted*MATH_PI/kCycleDuration)+1.1)/2.1;
-    LogMessage(@"Started", 3, [NSString stringWithFormat:@"Started: %f Bright: %f", secStarted, brightness]);
+    float derivative = (cos(secStarted*MATH_PI/kCycleDuration));
+    if (brightness < 0.5 && derivative > 0 && derivative < 0.1 && [self enoughTimeFromLastChange]) {
+        [self changeImage];
+    }
+    LogMessage(@"Started", 3, @"%@",[NSString stringWithFormat:@"Started: %f Bright: %f Deriv: %f", secStarted, brightness, derivative]);
     [self setBrightness:[NSNumber numberWithFloat:brightness]];
 }
 
@@ -114,17 +148,21 @@ const char *APP_NAME;
 - (void)drawRect:(NSRect)rect
 {
     [super drawRect:rect];
-    LogMessage(@"", 5, [NSString stringWithFormat:@"Size: %f %f", rect.size.width, rect.size.height]);
+    LogMessage(@"", 5, @"Size: %f %f", rect.size.width, rect.size.height);
     LogMessage(@"", 5, @"drawRect");
 }
 
 - (void)animateOneFrame
 {
-    if (![self isPreview]) {
-        LogMessage(@"", 5, [NSString stringWithFormat:@"animateOneFrame (Preview:NO) (brightness: %f)", [self getBrightness]]);
-        [self brightnessCycle];
+    if (__isPreview) {
+        //LogMessage(@"", 5, @"animateOneFrame (SmallPreview)");
     } else {
-        LogMessage(@"", 5, @"animateOneFrame (Preview:YES)");
+        //LogMessage(@"", 5, @"animateOneFrame (FullScreen) (brightness: %f)", [self getBrightness]);
+        [self brightnessCycle];
+        if (firstIteration) {
+            LogMessage(@"FirstIteration", 5, @"First Iteration");
+            [self changeImage];
+        }
     }
     return;
 }

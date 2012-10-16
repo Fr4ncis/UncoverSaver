@@ -11,11 +11,16 @@
 
 @interface UncoverSaverView : ScreenSaverView {
     NSDate *startTime;
+    NSDate *lastChangeTime;
     float defaultBrightness;
     float normalizeOffset;
-    BOOL upwards;
+    __block BOOL firstIteration;
+    __block BOOL __isPreview;
+    
+    int imageNum;
     
     QTMovie *movie;
+    NSImageView *imageView;
 }
 
 - (void)setBrightness:(NSNumber*)brightness;
