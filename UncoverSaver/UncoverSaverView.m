@@ -15,8 +15,8 @@
 #import <QuartzCore/QuartzCore.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-const int kVersion = 57;
-const int kCycleDuration = 5;
+const int kVersion = 62;
+const int kDefaultCycleDuration = 5;
 const int kPreviewInterval = 10;
 const int kMaxDisplays = 16;
 const float kSteps = 1/20.0;
@@ -29,6 +29,14 @@ const char *APP_NAME;
 {
     if (self = [super initWithFrame:frame isPreview:isPreview]) {
         imageNum = 0;
+        cycleDuration = kDefaultCycleDuration;
+        
+        // Load defaults
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSNumber *numCycleDuration = [defaults valueForKey:@"cycleDuration"];
+        if (numCycleDuration)
+            cycleDuration = [numCycleDuration intValue];
+        
         LogMessage(@"", 4, @"%@", [NSString stringWithFormat:@"(VER %d) InitWithFrame PREVIEW: %d", kVersion, isPreview]);
         if (isPreview) {
             LogMessage(@"Mode", 4, @"SMALL PREVIEW");
@@ -101,7 +109,7 @@ const char *APP_NAME;
         return YES;
     } else {
         float secStarted = [lastChangeTime timeIntervalSinceNow]*-1;
-        if (secStarted > (kCycleDuration / 10.0)) {
+        if (secStarted > (cycleDuration / 10.0)) {
             lastChangeTime = [[NSDate alloc] init];
             return YES;
         } else {
@@ -113,8 +121,8 @@ const char *APP_NAME;
 - (void)brightnessCycle
 {
     float secStarted = [startTime timeIntervalSinceNow]*-1;
-    float brightness = (sin(secStarted*MATH_PI/kCycleDuration)+1)/2;
-    float derivative = (cos(secStarted*MATH_PI/kCycleDuration));
+    float brightness = (sin(secStarted*MATH_PI/cycleDuration)+1)/2;
+    float derivative = (cos(secStarted*MATH_PI/cycleDuration));
     LogMessage(@"Started", 3, @"%@",[NSString stringWithFormat:@"Started: %f Bright: %f Deriv: %f", secStarted, brightness, derivative]);
     if (brightness < 0.5 && derivative > 0 && derivative < 0.1 && [self enoughTimeFromLastChange]) {
         [self changeImage];
@@ -167,8 +175,18 @@ const char *APP_NAME;
 
 - (NSWindow*)configureSheet
 {
-    LogMessage(@"", 5, @"configureSheet");
-    return nil;
+    LogMessage(@"load", 5, @"configureSheet %@", configureSheet);
+    if (configureSheet == nil) {
+        if ([NSBundle loadNibNamed:@"ConfigureSheet" owner:self])
+            LogMessage(@"load", 5, @"nib loaded");
+
+    }
+    
+    // Sets the slider on the configure sheet
+    tempCycleDuration = cycleDuration;
+    [breatheDurationSlider setFloatValue:tempCycleDuration];
+    
+    return configureSheet;
 }
 
 - (void)setBrightness:(NSNumber*)brightness
@@ -194,7 +212,6 @@ const char *APP_NAME;
             NSLog(@"Error setting display brightness");
         }
     }
-
 }
 
 - (void)saveDefaultBrightness
@@ -206,6 +223,36 @@ const char *APP_NAME;
 - (void)playAgain:(NSNotification*)note
 {
     [movie play];
+}
+
+#pragma mark - Actions from the configureSheet
+
+// OK button pressed, does save the temporary parameters
+
+- (IBAction)okButtonPressed:(id)sender {
+    
+    // Saves parameters
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithFloat:tempCycleDuration] forKey:@"cycleDuration"];
+    [defaults synchronize];
+    LogMessage(@"Parameter", 3, @"Default cycle duration: %f", tempCycleDuration);
+    
+    // Close the configureSheet
+    [NSApp endSheet:configureSheet];
+    configureSheet = nil;
+}
+
+// Cancel button pressed, does not save temporary parameters
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    [NSApp endSheet:configureSheet];
+    configureSheet = nil;
+}
+
+// Breathe slider value changed
+
+- (IBAction)breathDurationValueChanged:(id)sender {
+    tempCycleDuration = ((NSSlider*)sender).floatValue;
 }
 
 @end

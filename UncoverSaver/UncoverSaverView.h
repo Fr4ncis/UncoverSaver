@@ -16,7 +16,12 @@
     float normalizeOffset;
     
     int imageNum;
+    int cycleDuration;
     
+    float tempCycleDuration;
+    
+    IBOutlet NSSlider *breatheDurationSlider;
+    IBOutlet NSWindow *configureSheet;
     QTMovie *movie;
     NSImageView *imageView;
 }

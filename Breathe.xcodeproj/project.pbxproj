@@ -12,6 +12,7 @@
 		6D20103B15639E7D0073A62F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D20103915639E7D0073A62F /* InfoPlist.strings */; };
 		6D20103F15639E7D0073A62F /* UncoverSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D20103E15639E7D0073A62F /* UncoverSaverView.m */; };
 		6D2010481563F0C80073A62F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2010471563F0C80073A62F /* IOKit.framework */; };
+		6D6F4679162DB98400B80E35 /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */; };
 		6D8EAAD815E5376E00237642 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8EAAD715E5376E00237642 /* QTKit.framework */; };
 		6D8EAAE315E53DD800237642 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8EAAE015E53DD800237642 /* LoggerClient.h */; };
 		6D8EAAE415E53DD800237642 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8EAAE115E53DD800237642 /* LoggerClient.m */; };
@@ -26,18 +27,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6D20102B15639E7D0073A62F /* UncoverSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UncoverSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D20102B15639E7D0073A62F /* Breathe.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Breathe.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D20102E15639E7D0073A62F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D20103015639E7D0073A62F /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
 		6D20103315639E7D0073A62F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6D20103415639E7D0073A62F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6D20103515639E7D0073A62F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6D20103815639E7D0073A62F /* UncoverSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UncoverSaver-Info.plist"; sourceTree = "<group>"; };
+		6D20103815639E7D0073A62F /* Breathe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Breathe-Info.plist"; sourceTree = "<group>"; };
 		6D20103A15639E7D0073A62F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6D20103C15639E7D0073A62F /* UncoverSaver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UncoverSaver-Prefix.pch"; sourceTree = "<group>"; };
+		6D20103C15639E7D0073A62F /* Breathe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Breathe-Prefix.pch"; sourceTree = "<group>"; };
 		6D20103D15639E7D0073A62F /* UncoverSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UncoverSaverView.h; sourceTree = "<group>"; };
 		6D20103E15639E7D0073A62F /* UncoverSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UncoverSaverView.m; sourceTree = "<group>"; };
 		6D2010471563F0C80073A62F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigureSheet.xib; sourceTree = "<group>"; };
 		6D8EAAD715E5376E00237642 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		6D8EAAE015E53DD800237642 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		6D8EAAE115E53DD800237642 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
@@ -83,7 +85,7 @@
 		6D20102C15639E7D0073A62F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6D20102B15639E7D0073A62F /* UncoverSaver.saver */,
+				6D20102B15639E7D0073A62F /* Breathe.saver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,9 +128,9 @@
 		6D20103715639E7D0073A62F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6D20103815639E7D0073A62F /* UncoverSaver-Info.plist */,
+				6D20103815639E7D0073A62F /* Breathe-Info.plist */,
 				6D20103915639E7D0073A62F /* InfoPlist.strings */,
-				6D20103C15639E7D0073A62F /* UncoverSaver-Prefix.pch */,
+				6D20103C15639E7D0073A62F /* Breathe-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -159,6 +161,7 @@
 				6DEDA1D0162C4440000EF4E3 /* image1.jpg */,
 				6DEDA1D1162C4440000EF4E3 /* image3.jpg */,
 				6D8EAAE715E53DF800237642 /* littleMovie.mov */,
+				6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */,
 			);
 			name = Resources;
 			path = UncoverSaver/Resources;
@@ -179,9 +182,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6D20102A15639E7D0073A62F /* UncoverSaver */ = {
+		6D20102A15639E7D0073A62F /* Breathe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6D20104215639E7D0073A62F /* Build configuration list for PBXNativeTarget "UncoverSaver" */;
+			buildConfigurationList = 6D20104215639E7D0073A62F /* Build configuration list for PBXNativeTarget "Breathe" */;
 			buildPhases = (
 				6D20102515639E7D0073A62F /* Sources */,
 				6D20102615639E7D0073A62F /* Frameworks */,
@@ -193,9 +196,9 @@
 			);
 			dependencies = (
 			);
-			name = UncoverSaver;
+			name = Breathe;
 			productName = UncoverSaver;
-			productReference = 6D20102B15639E7D0073A62F /* UncoverSaver.saver */;
+			productReference = 6D20102B15639E7D0073A62F /* Breathe.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -206,7 +209,7 @@
 			attributes = {
 				LastUpgradeCheck = 0430;
 			};
-			buildConfigurationList = 6D20102315639E7C0073A62F /* Build configuration list for PBXProject "UncoverSaver" */;
+			buildConfigurationList = 6D20102315639E7C0073A62F /* Build configuration list for PBXProject "Breathe" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -218,7 +221,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6D20102A15639E7D0073A62F /* UncoverSaver */,
+				6D20102A15639E7D0073A62F /* Breathe */,
 			);
 		};
 /* End PBXProject section */
@@ -233,6 +236,7 @@
 				6DEDA1D2162C4440000EF4E3 /* image2.jpg in Resources */,
 				6DEDA1D3162C4440000EF4E3 /* image1.jpg in Resources */,
 				6DEDA1D4162C4440000EF4E3 /* image3.jpg in Resources */,
+				6D6F4679162DB98400B80E35 /* ConfigureSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,11 +329,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UncoverSaver/UncoverSaver-Prefix.pch";
+				GCC_PREFIX_HEADER = "UncoverSaver/Breathe-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "UncoverSaver/UncoverSaver-Info.plist";
+				INFOPLIST_FILE = "UncoverSaver/Breathe-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Breathe;
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = saver;
 			};
@@ -340,11 +344,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UncoverSaver/UncoverSaver-Prefix.pch";
+				GCC_PREFIX_HEADER = "UncoverSaver/Breathe-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "UncoverSaver/UncoverSaver-Info.plist";
+				INFOPLIST_FILE = "UncoverSaver/Breathe-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Breathe;
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = saver;
 			};
@@ -353,7 +357,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6D20102315639E7C0073A62F /* Build configuration list for PBXProject "UncoverSaver" */ = {
+		6D20102315639E7C0073A62F /* Build configuration list for PBXProject "Breathe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D20104015639E7D0073A62F /* Debug */,
@@ -362,7 +366,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6D20104215639E7D0073A62F /* Build configuration list for PBXNativeTarget "UncoverSaver" */ = {
+		6D20104215639E7D0073A62F /* Build configuration list for PBXNativeTarget "Breathe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D20104315639E7D0073A62F /* Debug */,
