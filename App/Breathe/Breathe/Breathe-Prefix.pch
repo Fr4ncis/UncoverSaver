@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Breathe' target in the 'Breathe' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

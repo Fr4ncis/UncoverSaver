@@ -12,13 +12,16 @@
 		6D20103B15639E7D0073A62F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D20103915639E7D0073A62F /* InfoPlist.strings */; };
 		6D20103F15639E7D0073A62F /* UncoverSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D20103E15639E7D0073A62F /* UncoverSaverView.m */; };
 		6D2010481563F0C80073A62F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2010471563F0C80073A62F /* IOKit.framework */; };
-		6D6F4679162DB98400B80E35 /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */; };
+		6D645AA916353C2400DCA422 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D645AA816353C2400DCA422 /* WebKit.framework */; };
 		6D8EAAD815E5376E00237642 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8EAAD715E5376E00237642 /* QTKit.framework */; };
 		6D8EAAE315E53DD800237642 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8EAAE015E53DD800237642 /* LoggerClient.h */; };
 		6D8EAAE415E53DD800237642 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8EAAE115E53DD800237642 /* LoggerClient.m */; };
 		6D8EAAE515E53DD800237642 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D8EAAE215E53DD800237642 /* LoggerCommon.h */; };
 		6D8EAAE815E53DF800237642 /* littleMovie.mov in Resources */ = {isa = PBXBuildFile; fileRef = 6D8EAAE715E53DF800237642 /* littleMovie.mov */; };
 		6D8EAAEB15E5466900237642 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8EAAEA15E5466900237642 /* QuartzCore.framework */; };
+		6DB50B25162EAFD60065DB4D /* ConfigureSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6DB50B24162EAFD60065DB4D /* ConfigureSheet.nib */; };
+		6DB50B2E162EBB1F0065DB4D /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB50B2C162EBB1F0065DB4D /* thumbnail.png */; };
+		6DB50B2F162EBB1F0065DB4D /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB50B2D162EBB1F0065DB4D /* thumbnail@2x.png */; };
 		6DDF074B15DE44DB000DA809 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDF074A15DE44DB000DA809 /* SystemConfiguration.framework */; };
 		6DDF074E15DE454A000DA809 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDF074D15DE454A000DA809 /* CoreServices.framework */; };
 		6DEDA1D2162C4440000EF4E3 /* image2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DEDA1CF162C4440000EF4E3 /* image2.jpg */; };
@@ -39,13 +42,16 @@
 		6D20103D15639E7D0073A62F /* UncoverSaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UncoverSaverView.h; sourceTree = "<group>"; };
 		6D20103E15639E7D0073A62F /* UncoverSaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UncoverSaverView.m; sourceTree = "<group>"; };
 		6D2010471563F0C80073A62F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigureSheet.xib; sourceTree = "<group>"; };
+		6D645AA816353C2400DCA422 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		6D8EAAD715E5376E00237642 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		6D8EAAE015E53DD800237642 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		6D8EAAE115E53DD800237642 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
 		6D8EAAE215E53DD800237642 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
 		6D8EAAE715E53DF800237642 /* littleMovie.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = littleMovie.mov; sourceTree = "<group>"; };
 		6D8EAAEA15E5466900237642 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6DB50B24162EAFD60065DB4D /* ConfigureSheet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConfigureSheet.nib; sourceTree = "<group>"; };
+		6DB50B2C162EBB1F0065DB4D /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnail.png; sourceTree = "<group>"; };
+		6DB50B2D162EBB1F0065DB4D /* thumbnail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail@2x.png"; sourceTree = "<group>"; };
 		6DDF074A15DE44DB000DA809 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6DDF074D15DE454A000DA809 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		6DEDA1CF162C4440000EF4E3 /* image2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image2.jpg; sourceTree = "<group>"; };
@@ -58,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D645AA916353C2400DCA422 /* WebKit.framework in Frameworks */,
 				6D8EAAEB15E5466900237642 /* QuartzCore.framework in Frameworks */,
 				6D8EAAD815E5376E00237642 /* QTKit.framework in Frameworks */,
 				6DDF074E15DE454A000DA809 /* CoreServices.framework in Frameworks */,
@@ -93,6 +100,7 @@
 		6D20102D15639E7D0073A62F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D645AA816353C2400DCA422 /* WebKit.framework */,
 				6D8EAAEA15E5466900237642 /* QuartzCore.framework */,
 				6D8EAAD715E5376E00237642 /* QTKit.framework */,
 				6DDF074D15DE454A000DA809 /* CoreServices.framework */,
@@ -160,8 +168,10 @@
 				6DEDA1CF162C4440000EF4E3 /* image2.jpg */,
 				6DEDA1D0162C4440000EF4E3 /* image1.jpg */,
 				6DEDA1D1162C4440000EF4E3 /* image3.jpg */,
+				6DB50B2C162EBB1F0065DB4D /* thumbnail.png */,
+				6DB50B2D162EBB1F0065DB4D /* thumbnail@2x.png */,
 				6D8EAAE715E53DF800237642 /* littleMovie.mov */,
-				6D6F4678162DB98400B80E35 /* ConfigureSheet.xib */,
+				6DB50B24162EAFD60065DB4D /* ConfigureSheet.nib */,
 			);
 			name = Resources;
 			path = UncoverSaver/Resources;
@@ -236,7 +246,9 @@
 				6DEDA1D2162C4440000EF4E3 /* image2.jpg in Resources */,
 				6DEDA1D3162C4440000EF4E3 /* image1.jpg in Resources */,
 				6DEDA1D4162C4440000EF4E3 /* image3.jpg in Resources */,
-				6D6F4679162DB98400B80E35 /* ConfigureSheet.xib in Resources */,
+				6DB50B25162EAFD60065DB4D /* ConfigureSheet.nib in Resources */,
+				6DB50B2E162EBB1F0065DB4D /* thumbnail.png in Resources */,
+				6DB50B2F162EBB1F0065DB4D /* thumbnail@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

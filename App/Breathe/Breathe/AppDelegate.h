@@ -1,14 +1,16 @@
 //
-//  UncoverSaverView.h
-//  UncoverSaver
+//  AppDelegate.h
+//  Breathe
 //
-//  Created by Francesco Mattia on 5/16/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Francesco Mattia on 10/22/12.
+//  Copyright (c) 2012 Uncover. All rights reserved.
 //
 
-#import <ScreenSaver/ScreenSaver.h>
+#import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
 #import <WebKit/WebKit.h>
+
+@class FullScreenWindow;
 
 typedef enum {
     kEffectBreathe = 1,
@@ -17,25 +19,22 @@ typedef enum {
     kEffectSpaceInvaders = 4
 } kEffect;
 
-@interface UncoverSaverView : ScreenSaverView {
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSDate *startTime;
     NSDate *lastChangeTime;
     float defaultBrightness;
     float normalizeOffset;
     
     int imageNum;
-    int cycleDuration;
+    float cycleDuration;
     
     kEffect effect;
     
-    float tempCycleDuration;
-    
     IBOutlet NSSlider *breatheDurationSlider;
-    IBOutlet id configureSheet;
-    QTMovie *movie;
     
     NSImageView *imageView;
     WebView     *webView;
+    FullScreenWindow    *fullScreenWindow;
     
     // Effects button cells outlets
     IBOutlet NSButtonCell   *breatheCell;
@@ -48,6 +47,7 @@ typedef enum {
     IBOutlet NSButtonCell   *imagesUncoverCell;
     IBOutlet NSButtonCell   *imagesFolderCell;
     IBOutlet NSTextField    *imagesNumberTextField;
+    __weak NSMatrix *_imageSourceMatrix;
     
     NSString    *imagesFolderPath;
     NSMutableArray     *imagesArray;
@@ -57,4 +57,7 @@ typedef enum {
 - (void)saveDefaultBrightness;
 - (float)getBrightness;
 
+@property (assign) IBOutlet NSWindow *window;
+
+@property (weak) IBOutlet NSMatrix *imageSourceMatrix;
 @end
