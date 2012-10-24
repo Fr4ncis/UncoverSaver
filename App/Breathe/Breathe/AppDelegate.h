@@ -19,7 +19,7 @@ typedef enum {
     kEffectSpaceInvaders = 4
 } kEffect;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSURLConnectionDelegate> {
     NSDate *startTime;
     NSDate *lastChangeTime;
     float defaultBrightness;
@@ -29,6 +29,8 @@ typedef enum {
     float cycleDuration;
     
     kEffect effect;
+    
+    NSMutableData *receivedData;
     
     IBOutlet NSSlider *breatheDurationSlider;
     
@@ -51,6 +53,13 @@ typedef enum {
     
     NSString    *imagesFolderPath;
     NSMutableArray     *imagesArray;
+    NSMutableArray     *remoteImagesArray;
+    
+    // Loading elements
+    
+    __weak NSTextField *_loadingTextField;
+    __weak NSProgressIndicator *_activityIndicator;
+    __weak NSButton *_startButton;
 }
 
 - (void)setBrightness:(NSNumber*)brightness;
@@ -60,4 +69,7 @@ typedef enum {
 @property (assign) IBOutlet NSWindow *window;
 
 @property (weak) IBOutlet NSMatrix *imageSourceMatrix;
+@property (weak) IBOutlet NSButton *startButton;
+@property (weak) IBOutlet NSProgressIndicator *activityIndicator;
+@property (weak) IBOutlet NSTextField *loadingTextField;
 @end

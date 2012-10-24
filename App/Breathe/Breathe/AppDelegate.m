@@ -146,20 +146,33 @@ static NSString * const moduleName = @"com.uncover.breathe";
         [fullScreenWindow makeKeyAndOrderFront:self];
     }
     NSString *filePath;
+    NSImage *image;
     if ([imagesArray count] > 0)
     {
         // Images from user folder
         (imageNum>=[imagesArray count])?imageNum=0:imageNum;
         filePath = [imagesArray objectAtIndex:imageNum];
+        image = [[NSImage alloc] initWithContentsOfFile:filePath];
+
     }
     else
     {
         // Local images
-        (imageNum>3)?imageNum=1:imageNum;
-        filePath = [bundle pathForResource:[NSString stringWithFormat:@"image%d", imageNum]  ofType: @"jpg"];
-        //LogMessage(@"Image", 4, @"%@", [NSString stringWithFormat:@"FilePath: %@", filePath]);
+        (imageNum>[remoteImagesArray count]-1)?imageNum=0:imageNum;
+        image = [remoteImagesArray objectAtIndex:imageNum];
     }
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:filePath];
+    NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
+    float screenHeight = mainDisplayRect.size.height;
+    float screenWidth = mainDisplayRect.size.width;
+    if (image.size.width < image.size.height) {
+        float width = screenHeight*image.size.width/image.size.height;
+        float height = screenHeight;
+        [imageView setFrame:NSMakeRect(screenWidth/2-width/2, screenHeight/2-height/2, width, height)];
+    } else {
+        float width = screenWidth;
+        float height = screenWidth*image.size.height/image.size.width;
+        [imageView setFrame:NSMakeRect(screenWidth/2-width/2, screenHeight/2-height/2, width, height)];
+    }
     [imageView setAlphaValue:0.0];
     [imageView setImage:image];
     [imageView setImageScaling:NSScaleToFit];
@@ -174,8 +187,8 @@ static NSString * const moduleName = @"com.uncover.breathe";
     [self saveDefaultBrightness];
     [self changeImage];
     if (effect == kEffectSpaceInvaders) {
-        LogMessage(@"Load", 4, @"Loading space invaders");
         NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
+        LogMessage(@"Load", 4, @"Loading space invaders");
         NSView *blackView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, mainDisplayRect.size.width, mainDisplayRect.size.height)];
         CALayer *viewLayer = [CALayer layer];
         [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0)]; //RGB plus Alpha Channel
@@ -362,7 +375,24 @@ static NSString * const moduleName = @"com.uncover.breathe";
 #pragma mark - Actions from the configureSheet
 
 - (IBAction)startButtonPressed:(id)sender {
-    
+    if ([imagesArray count] == 0 && effect != kEffectSpaceInvaders) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.uncovermac.com/BackgroundsforScreensaver/listdir.php"]];
+        NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+        if (connection) {
+            receivedData = [NSMutableData data];
+            [_activityIndicator startAnimation:nil];
+            [_loadingTextField setHidden:NO];
+            [_startButton setEnabled:NO];
+    }
+    else
+        LogMessage(@"Error", 2, @"Connection failed");
+    } else {
+        [self startFullScreenAnimation];
+    }
+}
+
+- (void)startFullScreenAnimation
+{
     NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
     [self loadConfiguration];
     
@@ -503,6 +533,38 @@ static NSString * const moduleName = @"com.uncover.breathe";
 {
     [fullScreenWindow close];
     //fullScreenWindow = nil;
+}
+
+# pragma mark - Connection delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [receivedData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    LogData(@"Data", 2, receivedData);
+
+    NSString *content = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+    LogMessage(@"StringData", 2, @"%@", content);
+    NSArray *remoteImagesURLs = [content componentsSeparatedByString:@","];
+    remoteImagesArray = [NSMutableArray arrayWithCapacity:[remoteImagesURLs count]];
+    for (NSString *filename in remoteImagesURLs)
+    {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://uncovermac.com/BackgroundsforScreensaver/%@", filename]];
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+        [remoteImagesArray addObject:image];
+    }
+    [_activityIndicator stopAnimation:nil];
+    [_loadingTextField setHidden:YES];
+    [_startButton setEnabled:YES];
+    [self startFullScreenAnimation];
 }
 
 @end
