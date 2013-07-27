@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
 #import <WebKit/WebKit.h>
+#import "MenubarController.h"
+#import "PanelController.h"
 
 @class FullScreenWindow;
 
@@ -19,7 +21,7 @@ typedef enum {
     kEffectSpaceInvaders = 4
 } kEffect;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSURLConnectionDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSURLConnectionDelegate, PanelControllerDelegate> {
     NSDate *startTime;
     NSDate *lastChangeTime;
     float defaultBrightness;
@@ -65,6 +67,10 @@ typedef enum {
 - (void)setBrightness:(NSNumber*)brightness;
 - (void)saveDefaultBrightness;
 - (float)getBrightness;
+- (void)startFullScreenAnimation;
+- (IBAction)startButtonPressed:(id)sender;
+- (float)cycleDuration;
+- (kEffect)effect;
 
 @property (assign) IBOutlet NSWindow *window;
 
@@ -72,4 +78,8 @@ typedef enum {
 @property (weak) IBOutlet NSButton *startButton;
 @property (weak) IBOutlet NSProgressIndicator *activityIndicator;
 @property (weak) IBOutlet NSTextField *loadingTextField;
+
+@property (nonatomic, strong) MenubarController *menubarController;
+@property (nonatomic, strong, readonly) PanelController *panelController;
+
 @end

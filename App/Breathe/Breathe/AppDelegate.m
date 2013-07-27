@@ -17,9 +17,10 @@
 #import <QuartzCore/QuartzCore.h>
 #include <ApplicationServices/ApplicationServices.h>
 #import <WebKit/WebKit.h>
+#import "DPHue.h"
 
 const int kVersion = 89;
-const int kDefaultCycleDuration = 5;
+const float kDefaultCycleDuration = 5.0f;
 const int kPreviewInterval = 10;
 const int kMaxDisplays = 16;
 
@@ -34,9 +35,14 @@ const char *APP_NAME;
 static NSString * const moduleName = @"com.uncover.breathe";
 
 @implementation AppDelegate
+@synthesize menubarController = _menubarController;
+@synthesize panelController = _panelController;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // Install icon into the menu bar
+    self.menubarController = [[MenubarController alloc] init];
+    
     // Insert code here to initialize your application
     [self loadConfiguration];
     [self saveDefaultBrightness];
@@ -366,6 +372,16 @@ static NSString * const moduleName = @"com.uncover.breathe";
     }
 }
 
+- (void)setHueBrightness:(float)brightness
+{
+    DPHue *someHue = [[DPHue alloc] initWithHueHost:@"192.168.1.18" username:@"088CA87723B99CBC38C44DDD0E7875A2";
+                      [someHue readWithCompletion:^(DPHue *hue, NSError *err) {
+        DPHueLight *light = hue.lights[1];
+        light.brightness = @128;
+        [light write];
+    }];
+}
+
 - (void)saveDefaultBrightness
 {
     defaultBrightness = [self getBrightness];
@@ -376,7 +392,7 @@ static NSString * const moduleName = @"com.uncover.breathe";
 
 - (IBAction)startButtonPressed:(id)sender {
     if ([imagesArray count] == 0 && effect != kEffectSpaceInvaders) {
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.uncovermac.com/BackgroundsforScreensaver/listdir.php"]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.fr4ncis.net/BackgroundsforScreensaver/listdir.php"]];
         NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
         if (connection) {
             receivedData = [NSMutableData data];
@@ -393,22 +409,14 @@ static NSString * const moduleName = @"com.uncover.breathe";
 
 - (void)startFullScreenAnimation
 {
-    NSRect mainDisplayRect = [[NSScreen mainScreen] frame];
     [self loadConfiguration];
+        
+    fullScreenWindow = [FullScreenWindow sharedInstance];
+    [fullScreenWindow makeKeyAndOrderFront:nil];
+    [fullScreenWindow makeFirstResponder:fullScreenWindow];
     
     LogMessage(@"fullScreenWindow", 3, @"%@", fullScreenWindow);
-    if (!fullScreenWindow) {
-        fullScreenWindow = [[FullScreenWindow alloc] initWithContentRect:mainDisplayRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-        
-        [fullScreenWindow setLevel:NSMainMenuWindowLevel+1];
-        [fullScreenWindow setReleasedWhenClosed:NO];
-        [fullScreenWindow setOpaque:YES];
-        [fullScreenWindow setHidesOnDeactivate:YES];
-        [fullScreenWindow makeFirstResponder:nil];
-    } else {
-        [fullScreenWindow makeKeyAndOrderFront:nil];
-        [fullScreenWindow makeFirstResponder:nil];
-    }
+    
     
     LogMessage(@"Effect", 3, @"Effect: %d", effect);
     LogMessage(@"Folder", 3, @"Folder: %@", imagesFolderPath);
@@ -519,20 +527,29 @@ static NSString * const moduleName = @"com.uncover.breathe";
     [imagesFolderCell setState:([imagesArray count]>0?1:0)];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+- (void)fullscreenWindowClosed
 {
-    return YES;
+    [fullScreenWindow close];
+    //fullScreenWindow = nil;
 }
+
+# pragma mark - Application cycle
+
+//- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+//{
+//    return YES;
+//}
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     [self setBrightness:[NSNumber numberWithFloat:defaultBrightness]];
 }
 
-- (void)fullscreenWindowClosed
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    [fullScreenWindow close];
-    //fullScreenWindow = nil;
+    // Explicitly remove the icon from the menu bar
+    self.menubarController = nil;
+    return NSTerminateNow;
 }
 
 # pragma mark - Connection delegate
@@ -550,14 +567,14 @@ static NSString * const moduleName = @"com.uncover.breathe";
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     LogData(@"Data", 2, receivedData);
-
+    
     NSString *content = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     LogMessage(@"StringData", 2, @"%@", content);
     NSArray *remoteImagesURLs = [content componentsSeparatedByString:@","];
     remoteImagesArray = [NSMutableArray arrayWithCapacity:[remoteImagesURLs count]];
     for (NSString *filename in remoteImagesURLs)
     {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://uncovermac.com/BackgroundsforScreensaver/%@", filename]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.fr4ncis.net/BackgroundsforScreensaver/%@", filename]];
         NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
         [remoteImagesArray addObject:image];
     }
@@ -566,5 +583,57 @@ static NSString * const moduleName = @"com.uncover.breathe";
     [_startButton setEnabled:YES];
     [self startFullScreenAnimation];
 }
+
+#pragma mark - Actions
+
+- (IBAction)togglePanel:(id)sender
+{
+    self.menubarController.hasActiveIcon = !self.menubarController.hasActiveIcon;
+    self.panelController.hasActivePanel = self.menubarController.hasActiveIcon;
+}
+
+#pragma mark - Public accessors
+
+- (PanelController *)panelController
+{
+    if (_panelController == nil) {
+        _panelController = [[PanelController alloc] initWithDelegate:self];
+        [_panelController addObserver:self forKeyPath:@"hasActivePanel" options:0 context:kContextActivePanel];
+    }
+    return _panelController;
+}
+
+#pragma mark - PanelControllerDelegate
+
+- (StatusItemView *)statusItemViewForPanelController:(PanelController *)controller
+{
+    return self.menubarController.statusItemView;
+}
+
+#pragma mark -
+
+void *kContextActivePanel = &kContextActivePanel;
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == kContextActivePanel) {
+        self.menubarController.hasActiveIcon = self.panelController.hasActivePanel;
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (float)cycleDuration
+{
+    return cycleDuration;
+}
+
+- (kEffect)effect
+{
+    return effect;
+}
+
+
 
 @end
